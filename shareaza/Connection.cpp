@@ -18,6 +18,11 @@
 // along with Shareaza; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
+/**
+ * @file Connection.cpp
+ * @brief Implementation of the CConnection class.
+ */
+//
 
 // CConnection holds a socket used to communicate with a remote computer, and is the root of a big inheritance tree
 // http://shareazasecurity.be/wiki/index.php?title=Developers.Code.CConnection

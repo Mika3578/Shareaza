@@ -31,11 +31,25 @@ enum
 
 class CSettingsItem;
 
+/**
+ * @brief Manages the application settings.
+ *
+ * This class provides a centralized location for storing and retrieving
+ * application settings. It also provides methods for loading and saving
+ * settings to and from the registry.
+ */
 class CSettings
 {
 // Construction
 public:
+	/**
+	 * @brief Constructs a new CSettings object.
+	 */
 	CSettings();
+
+	/**
+	 * @brief Destroys the CSettings object.
+	 */
 	virtual ~CSettings();
 
 // Attributes
@@ -802,18 +816,53 @@ protected:
 
 // Operations
 public:
+	/**
+	 * @brief Loads the settings from the registry.
+	 */
 	void	Load();
+
+	/**
+	 * @brief Saves the settings to the registry.
+	 * @param bShutdown If TRUE, the settings are being saved at shutdown.
+	 */
 	void	Save(BOOL bShutdown = FALSE);
+
+	/**
+	 * @brief Gets the position of the first item in the settings list.
+	 * @return The position of the first item in the settings list.
+	 */
 	inline POSITION	GetHeadPosition() const
 	{
 		return m_pItems.GetHeadPosition();
 	}
+
+	/**
+	 * @brief Gets the next item in the settings list.
+	 * @param rPosition The position of the current item.
+	 * @return A pointer to the next item in the settings list.
+	 */
 	inline Item*	GetNext(POSITION& rPosition) const
 	{
 		return m_pItems.GetNext( rPosition );
 	}
+
+	/**
+	 * @brief Normalizes a setting value.
+	 * @param pSetting A pointer to the setting to normalize.
+	 */
 	void	Normalize(LPVOID pSetting);
+
+	/**
+	 * @brief Checks if a setting is set to its default value.
+	 * @param pSetting A pointer to the setting to check.
+	 * @return true if the setting is set to its default value, false otherwise.
+	 */
 	bool	IsDefault(LPVOID pSetting) const;
+
+	/**
+	 * @brief Sets a setting to its default value.
+	 * @param pSetting A pointer to the setting to set.
+	 */
 	void	SetDefault(LPVOID pSetting);
 
 	template< class T >
@@ -830,24 +879,111 @@ public:
 		}
 	}
 
+	/**
+	 * @brief Loads the position and size of a window from the registry.
+	 * @param pszName The name of the window.
+	 * @param pWindow A pointer to the window.
+	 * @return TRUE if the window position and size were loaded successfully, FALSE otherwise.
+	 */
 	BOOL	LoadWindow(LPCTSTR pszName, CWnd* pWindow);
+
+	/**
+	 * @brief Saves the position and size of a window to the registry.
+	 * @param pszName The name of the window.
+	 * @param pWindow A pointer to the window.
+	 */
 	void	SaveWindow(LPCTSTR pszName, CWnd* pWindow);
+
+	/**
+	 * @brief Loads the column widths of a list control from the registry.
+	 * @param pszName The name of the list control.
+	 * @param pCtrl A pointer to the list control.
+	 * @param nSort The default sort column.
+	 * @return TRUE if the column widths were loaded successfully, FALSE otherwise.
+	 */
 	BOOL	LoadList(LPCTSTR pszName, CListCtrl* pCtrl, int nSort = 0);
+
+	/**
+	 * @brief Saves the column widths of a list control to the registry.
+	 * @param pszName The name of the list control.
+	 * @param pCtrl A pointer to the list control.
+	 */
 	void	SaveList(LPCTSTR pszName, CListCtrl* pCtrl);
 
-	const CString	SmartSpeed(QWORD nVolume, int nVolumeUnits = Bytes, bool bTruncate = false) const;	// Convert speeds into formatted strings
-	const CString	SmartVolume(QWORD nVolume, int nVolumeUnits = Bytes, bool bTruncate = false) const;	// Convert sizes into formatted strings
-	QWORD	ParseVolume(const CString& strVolume, int nReturnUnits = Bytes) const;					// Convert size string into desired units
-	DWORD	GetOutgoingBandwidth() const;																// Returns available outgoing bandwidth in KB/s
+	/**
+	 * @brief Converts a speed into a formatted string.
+	 * @param nVolume The speed to convert.
+	 * @param nVolumeUnits The units of the speed.
+	 * @param bTruncate If TRUE, the string will be truncated.
+	 * @return The formatted string.
+	 */
+	const CString	SmartSpeed(QWORD nVolume, int nVolumeUnits = Bytes, bool bTruncate = false) const;
+
+	/**
+	 * @brief Converts a size into a formatted string.
+	 * @param nVolume The size to convert.
+	 * @param nVolumeUnits The units of the size.
+	 * @param bTruncate If TRUE, the string will be truncated.
+	 * @return The formatted string.
+	 */
+	const CString	SmartVolume(QWORD nVolume, int nVolumeUnits = Bytes, bool bTruncate = false) const;
+
+	/**
+	 * @brief Converts a size string into the desired units.
+	 * @param strVolume The size string to convert.
+	 * @param nReturnUnits The units to return the size in.
+	 * @return The size in the desired units.
+	 */
+	QWORD	ParseVolume(const CString& strVolume, int nReturnUnits = Bytes) const;
+
+	/**
+	 * @brief Returns the available outgoing bandwidth in KB/s.
+	 * @return The available outgoing bandwidth in KB/s.
+	 */
+	DWORD	GetOutgoingBandwidth() const;
+
+	/**
+	 * @brief Checks if the application is set to start at startup.
+	 * @return TRUE if the application is set to start at startup, FALSE otherwise.
+	 */
 	BOOL	CheckStartup();
+
+	/**
+	 * @brief Sets the application to start at startup.
+	 * @param bStartup If TRUE, the application will be set to start at startup.
+	 */
 	void	SetStartup(BOOL bStartup);
+
+	/**
+	 * @brief Clears the search history.
+	 */
 	void	ClearSearches();
 
+	/**
+	 * @brief Gets a setting value.
+	 * @param pszPath The path to the setting.
+	 * @param value A pointer to a VARIANT that receives the value of the setting.
+	 * @return true if the setting was retrieved successfully, false otherwise.
+	 */
 	bool	GetValue(LPCTSTR pszPath, VARIANT* value);
 
+	/**
+	 * @brief Called when the connection speed changes.
+	 */
 	void	OnChangeConnectionSpeed();
 
+	/**
+	 * @brief Loads a set of strings from a string.
+	 * @param pSet A pointer to the set to load.
+	 * @param pszString The string to load from.
+	 */
 	static void LoadSet(string_set* pSet, LPCTSTR pszString);
+
+	/**
+	 * @brief Saves a set of strings to a string.
+	 * @param pSet A pointer to the set to save.
+	 * @return The saved string.
+	 */
 	static CString SaveSet(const string_set* pSet);
 
 protected:

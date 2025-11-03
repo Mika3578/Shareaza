@@ -26,10 +26,24 @@
 class CBuffer;
 
 
+/**
+ * @brief Represents an abstract file transfer.
+ *
+ * This class provides a base for file transfers, handling the common
+ * functionality such as connecting, closing, and managing headers.
+ */
 class CTransfer abstract : public CConnection
 {
 public:
+	/**
+	 * @brief Constructs a new CTransfer object.
+	 * @param nProtocol The protocol to use for the transfer.
+	 */
 	CTransfer(PROTOCOLID nProtocol = PROTOCOL_ANY);
+
+	/**
+	 * @brief Destroys the CTransfer object.
+	 */
 	virtual ~CTransfer();
 
 	SOCKADDR_IN			m_pServer;			// Reference server (ED2K, DC++)
@@ -45,11 +59,48 @@ public:
 	QWORD				m_nPosition;		// Fragment position
 	DWORD				m_tRequest;			// The time a request was sent
 
+	/**
+	 * @brief Connects to the specified IPv4 address and port.
+	 * @param pAddress A pointer to the IPv4 address to connect to.
+	 * @param nPort The port to connect to.
+	 * @return TRUE if the connection is successful, FALSE otherwise.
+	 */
 	virtual BOOL	ConnectTo(const IN_ADDR* pAddress, WORD nPort);
+
+	/**
+	 * @brief Connects to the specified IPv6 address and port.
+	 * @param pAddress A pointer to the IPv6 address to connect to.
+	 * @param nPort The port to connect to.
+	 * @return TRUE if the connection is successful, FALSE otherwise.
+	 */
 	virtual BOOL	ConnectToIPv6(const IN6_ADDR* pAddress, WORD nPort);
+
+	/**
+	 * @brief Connects to the specified IPv4 address and port using SSL.
+	 * @param pAddress A pointer to the IPv4 address to connect to.
+	 * @param nPort The port to connect to.
+	 * @return TRUE if the connection is successful, FALSE otherwise.
+	 */
 	virtual BOOL	SSLConnectTo(const IN_ADDR* pAddress, WORD nPort);
+
+	/**
+	 * @brief Connects to the specified IPv6 address and port using SSL.
+	 * @param pAddress A pointer to the IPv6 address to connect to.
+	 * @param nPort The port to connect to.
+	 * @return TRUE if the connection is successful, FALSE otherwise.
+	 */
 	virtual BOOL	SSLConnectToIPv6(const IN6_ADDR* pAddress, WORD nPort);
+
+	/**
+	 * @brief Attaches this transfer to an existing connection.
+	 * @param pConnection A pointer to the connection to attach to.
+	 */
 	virtual void	AttachTo(CConnection* pConnection);
+
+	/**
+	 * @brief Closes the transfer.
+	 * @param nError The error code to associate with the closure.
+	 */
 	virtual void	Close(UINT nError = 0);
 
 protected:

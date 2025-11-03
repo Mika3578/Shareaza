@@ -36,13 +36,27 @@ class CAlbumFolder;
 // 28 - Added CLibraryMaps m_pIndexMap, m_pNameMap and m_pPathMap counts (ryo-oh-ki)
 // 29 - Added CLibraryDictionary serialize (ryo-oh-ki)
 
+/**
+ * @brief Manages the user's library of shared files.
+ *
+ * This class is responsible for loading, saving, and managing the user's library
+ * of shared files. It also provides methods for searching the library and
+ * handling query hits.
+ */
 class CLibrary :
 	public CComObject,
 	public CThreadImpl
 {
 // Construction
 public:
+	/**
+	 * @brief Constructs a new CLibrary object.
+	 */
 	CLibrary();
+
+	/**
+	 * @brief Destroys the CLibrary object.
+	 */
 	virtual ~CLibrary();
 
 	DECLARE_DYNAMIC(CLibrary)
@@ -91,20 +105,81 @@ public:
 
 // File and Folder Operations
 public:
+	/**
+	 * @brief Looks up a file in the library by its index.
+	 * @param nIndex The index of the file to look up.
+	 * @param bSharedOnly If TRUE, only shared files will be returned.
+	 * @param bAvailableOnly If TRUE, only available files will be returned.
+	 * @return A pointer to the file, or NULL if the file could not be found.
+	 */
 	CLibraryFile*	LookupFile(DWORD nIndex, BOOL bSharedOnly = FALSE, BOOL bAvailableOnly = FALSE) const;
+
+	/**
+	 * @brief Gets the root album folder.
+	 * @return A pointer to the root album folder.
+	 */
 	CAlbumFolder*	GetAlbumRoot();
+
+	/**
+	 * @brief Adds a file to the library.
+	 * @param pFile A pointer to the file to add.
+	 */
 	void			AddFile(CLibraryFile* pFile);
+
+	/**
+	 * @brief Removes a file from the library.
+	 * @param pFile A pointer to the file to remove.
+	 */
 	void			RemoveFile(CLibraryFile* pFile);
 
 // General Operations
 public:
-	// Update library files alternate sources
+	/**
+	 * @brief Updates the alternate sources for library files.
+	 * @param pHits A pointer to the query hits to process.
+	 * @return true if the alternate sources were updated successfully, false otherwise.
+	 */
 	bool			OnQueryHits(const CQueryHit* pHits);
+
+	/**
+	 * @brief Searches the library for files.
+	 * @param pSearch A pointer to the search query.
+	 * @param nMaximum The maximum number of results to return.
+	 * @param bLocal If TRUE, only the local library will be searched.
+	 * @param bAvailableOnly If TRUE, only available files will be returned.
+	 * @return A pointer to a list of matching files. The caller is responsible for deleting the list.
+	 */
 	CFileList*		Search(const CQuerySearch* pSearch, int nMaximum = 0, bool bLocal = false, bool bAvailableOnly = false);
+
+	/**
+	 * @brief Clears the library.
+	 */
 	void			Clear();
+
+	/**
+	 * @brief Loads the library from disk.
+	 * @return TRUE if the library was loaded successfully, FALSE otherwise.
+	 */
 	BOOL			Load();
+
+	/**
+	 * @brief Saves the library to disk.
+	 * @return TRUE if the library was saved successfully, FALSE otherwise.
+	 */
 	BOOL			Save();
+
+	/**
+	 * @brief Stops the library thread.
+	 */
 	void			StopThread();
+
+	/**
+	 * @brief Checks if a file is a bad file.
+	 * @param szFilenameOnly The name of the file to check.
+	 * @param szPathOnly The path to the file to check.
+	 * @param dwFileAttributes The attributes of the file to check.
+	 * @return TRUE if the file is a bad file, FALSE otherwise.
+	 */
 	static BOOL		IsBadFile(LPCTSTR szFilenameOnly, LPCTSTR szPathOnly = NULL, DWORD dwFileAttributes = 0);
 
 protected:

@@ -14,6 +14,12 @@
 class CImageWindow;
 
 
+/**
+ * @brief The main plugin class for the ImageViewer.
+ *
+ * This class implements the IGeneralPlugin, IExecutePlugin, and ICommandPlugin
+ * interfaces to provide the image viewer functionality.
+ */
 class ATL_NO_VTABLE CImageViewerPlugin : 
 	public CComObjectRootEx< CComSingleThreadModel >,
 	public CComCoClass< CImageViewerPlugin, &CLSID_ImageViewerPlugin >,

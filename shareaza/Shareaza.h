@@ -66,12 +66,26 @@ private:
 };
 
 
+/**
+ * @brief Represents the main Shareaza application class.
+ *
+ * This class is responsible for initializing and running the Shareaza application.
+ * It handles command-line parsing, message logging, and provides access to
+ * global application resources.
+ */
 class CShareazaApp : public CWinApp
 {
 	DECLARE_DYNAMIC(CShareazaApp)
 
 public:
+	/**
+	 * @brief Constructs a new CShareazaApp object.
+	 */
 	CShareazaApp();
+
+	/**
+	 * @brief Destroys the CShareazaApp object.
+	 */
 	virtual ~CShareazaApp();
 
 	HANDLE				m_pMutex;
@@ -157,66 +171,246 @@ public:
 
 	HINSTANCE			m_hLibGFL;
 
+	/**
+	 * @brief Loads a library and returns a handle to it.
+	 * @param pszPath The path to the library to load.
+	 * @return A handle to the loaded library, or NULL if the library could not be loaded.
+	 */
 	HINSTANCE			CustomLoadLibrary(LPCTSTR);
+
+	/**
+	 * @brief Gets a pointer to the main window.
+	 * @return A pointer to the main window, or NULL if the main window has not been created yet.
+	 */
 	CMainWnd*			SafeMainWnd() const;
+
+	/**
+	 * @brief Handles an internal URI.
+	 * @param pszURI The URI to handle.
+	 * @return TRUE if the URI was handled successfully, FALSE otherwise.
+	 */
 	BOOL				InternalURI(LPCTSTR pszURI);
 
 	// Logging functions
 	CLogMessageList		m_oMessages;	// Log temporary storage
 	CCriticalSection	m_csMessage;	// m_oMessages guard
+	/**
+	 * @brief Checks if a log message type is disabled.
+	 * @param nType The type of the log message.
+	 * @return true if the log message type is disabled, false otherwise.
+	 */
 	bool				IsLogDisabled(WORD nType) const;
+
+	/**
+	 * @brief Shows the startup text.
+	 */
 	void				ShowStartupText();
+
+	/**
+	 * @brief Logs a message.
+	 * @param nType The type of the message.
+	 * @param nID The resource ID of the message string.
+	 * @param ... Additional arguments to be formatted into the message string.
+	 */
 	void				Message(WORD nType, UINT nID, ...);
+
+	/**
+	 * @brief Logs a message.
+	 * @param nType The type of the message.
+	 * @param pszFormat The format string for the message.
+	 * @param ... Additional arguments to be formatted into the message string.
+	 */
 	void				Message(WORD nType, LPCTSTR pszFormat, ...);
-	// Log to file and to system window
+
+	/**
+	 * @brief Prints a message to the log file and the system window.
+	 * @param nType The type of the message.
+	 * @param strLog The message to print.
+	 */
 	void				PrintMessage(WORD nType, const CString& strLog);
 
+	/**
+	 * @brief Updates the splash screen.
+	 * @param pszMessage The message to display on the splash screen.
+	 * @param nMax The maximum value for the progress bar.
+	 * @param bClosing true if the application is closing, false otherwise.
+	 */
 	void				SplashStep(LPCTSTR pszMessage = NULL, int nMax = 0, bool bClosing = false);
+
+	/**
+	 * @brief Aborts the splash screen.
+	 */
 	void				SplashAbort();
 
+	/**
+	 * @brief Gets the country code for an IPv4 address.
+	 * @param pAddress The IPv4 address.
+	 * @return The country code for the address.
+	 */
 	CString				GetCountryCode(IN_ADDR pAddress) const;
+
+	/**
+	 * @brief Gets the country name for an IPv4 address.
+	 * @param pAddress The IPv4 address.
+	 * @return The country name for the address.
+	 */
 	CString				GetCountryName(IN_ADDR pAddress) const;
+
+	/**
+	 * @brief Gets the country code for an IPv6 address.
+	 * @param pAddress The IPv6 address.
+	 * @return The country code for the address.
+	 */
 	CString				GetCountryCode(IN6_ADDR pAddress) const;
+
+	/**
+	 * @brief Gets the country name for an IPv6 address.
+	 * @param pAddress The IPv6 address.
+	 * @return The country name for the address.
+	 */
 	CString				GetCountryName(IN6_ADDR pAddress) const;
 
-	// Open file or url. Returns NULL always.
+	/**
+	 * @brief Opens a file or URL.
+	 * @param lpszFileName The name of the file or URL to open.
+	 * @return A pointer to the document that was opened, or NULL if the file or URL could not be opened.
+	 */
 	virtual CDocument*	OpenDocumentFile(LPCTSTR lpszFileName);
-	// Open file or url (generic function)
+
+	/**
+	 * @brief Opens a file or URL.
+	 * @param lpszFileName The name of the file or URL to open.
+	 * @param bDoIt If TRUE, the file or URL will be opened. If FALSE, the function will only check if the file or URL can be opened.
+	 * @param bDispay If TRUE, the file will be displayed in the library.
+	 * @return TRUE if the file or URL was opened successfully, FALSE otherwise.
+	 */
 	BOOL				Open(LPCTSTR lpszFileName, BOOL bDoIt, BOOL bDispay = FALSE);
-	// Show file in Library
+
+	/**
+	 * @brief Shows a file in the library.
+	 * @param lpszFileName The name of the file to show.
+	 * @param bDoIt If TRUE, the file will be shown. If FALSE, the function will only check if the file can be shown.
+	 * @return TRUE if the file was shown successfully, FALSE otherwise.
+	 */
 	BOOL				DisplayFile(LPCTSTR lpszFileName, BOOL bDoIt);
-	// Open host list file
+
+	/**
+	 * @brief Opens a host list file.
+	 * @param lpszFileName The name of the host list file to open.
+	 * @param bDoIt If TRUE, the file will be opened. If FALSE, the function will only check if the file can be opened.
+	 * @return TRUE if the file was opened successfully, FALSE otherwise.
+	 */
 	BOOL				OpenImport(LPCTSTR lpszFileName, BOOL bDoIt);
-	// Open .lnk file
+
+	/**
+	 * @brief Opens a shell shortcut file.
+	 * @param lpszFileName The name of the shell shortcut file to open.
+	 * @param bDoIt If TRUE, the file will be opened. If FALSE, the function will only check if the file can be opened.
+	 * @return TRUE if the file was opened successfully, FALSE otherwise.
+	 */
 	BOOL				OpenShellShortcut(LPCTSTR lpszFileName, BOOL bDoIt);
-	// Open .url file
+
+	/**
+	 * @brief Opens an internet shortcut file.
+	 * @param lpszFileName The name of the internet shortcut file to open.
+	 * @param bDoIt If TRUE, the file will be opened. If FALSE, the function will only check if the file can be opened.
+	 * @return TRUE if the file was opened successfully, FALSE otherwise.
+	 */
 	BOOL				OpenInternetShortcut(LPCTSTR lpszFileName, BOOL bDoIt);
-	// Open .torrent file
+
+	/**
+	 * @brief Opens a torrent file.
+	 * @param lpszFileName The name of the torrent file to open.
+	 * @param bDoIt If TRUE, the file will be opened. If FALSE, the function will only check if the file can be opened.
+	 * @return TRUE if the file was opened successfully, FALSE otherwise.
+	 */
 	BOOL				OpenTorrent(LPCTSTR lpszFileName, BOOL bDoIt);
-	// Open Shareaza, eMule or DC++ collection file
+
+	/**
+	 * @brief Opens a collection file.
+	 * @param lpszFileName The name of the collection file to open.
+	 * @param bDoIt If TRUE, the file will be opened. If FALSE, the function will only check if the file can be opened.
+	 * @return TRUE if the file was opened successfully, FALSE otherwise.
+	 */
 	BOOL				OpenCollection(LPCTSTR lpszFileName, BOOL bDoIt);
-	// Open URL
+
+	/**
+	 * @brief Opens a URL.
+	 * @param lpszFileName The URL to open.
+	 * @param bDoIt If TRUE, the URL will be opened. If FALSE, the function will only check if the URL can be opened.
+	 * @param bSilent If TRUE, the URL will be opened silently.
+	 * @return TRUE if the URL was opened successfully, FALSE otherwise.
+	 */
 	BOOL				OpenURL(LPCTSTR lpszFileName, BOOL bDoIt, BOOL bSilent = FALSE);
-	// Open Shareaza Download file
+
+	/**
+	 * @brief Opens a Shareaza download file.
+	 * @param lpszFileName The name of the download file to open.
+	 * @param bDoIt If TRUE, the file will be opened. If FALSE, the function will only check if the file can be opened.
+	 * @return TRUE if the file was opened successfully, FALSE otherwise.
+	 */
 	BOOL				OpenDownload(LPCTSTR lpszFileName, BOOL bDoIt);
 
+	/**
+	 * @brief Gets the path to the Windows folder.
+	 * @return The path to the Windows folder.
+	 */
 	CString				GetWindowsFolder() const;
+
+	/**
+	 * @brief Gets the path to the 64-bit Program Files folder.
+	 * @return The path to the 64-bit Program Files folder.
+	 */
 	CString				GetProgramFilesFolder64() const;
+
+	/**
+	 * @brief Gets the path to the Program Files folder.
+	 * @return The path to the Program Files folder.
+	 */
 	CString				GetProgramFilesFolder() const;
+
+	/**
+	 * @brief Gets the path to the Documents folder.
+	 * @return The path to the Documents folder.
+	 */
 	CString				GetDocumentsFolder() const;
+
+	/**
+	 * @brief Gets the path to the Downloads folder.
+	 * @return The path to the Downloads folder.
+	 */
 	CString				GetDownloadsFolder() const;
+
+	/**
+	 * @brief Gets the path to the AppData folder.
+	 * @return The path to the AppData folder.
+	 */
 	CString				GetAppDataFolder() const;
+
+	/**
+	 * @brief Gets the path to the Local AppData folder.
+	 * @return The path to the Local AppData folder.
+	 */
 	CString				GetLocalAppDataFolder() const;
 
-	// Rename, delete or release file.
-	// pszTarget == 0 - delete file; pszTarget == 1 - release file.
+	/**
+	 * @brief Renames, deletes, or releases a file.
+	 * @param strSource The path to the file to rename, delete, or release.
+	 * @param pszTarget The new path for the file. If this parameter is 0, the file will be deleted. If this parameter is 1, the file will be released.
+	 */
 	void				OnRename(LPCTSTR strSource, LPCTSTR pszTarget = (LPCTSTR)1);
 
-	// Get database handler
-	// Must be freed by "delete" operator.
+	/**
+	 * @brief Gets a pointer to the database.
+	 * @return A pointer to the database. The caller is responsible for deleting the pointer.
+	 */
 	CDatabase*			GetDatabase() const;
 
-	// Copy text to clipboard (Unicode)
+	/**
+	 * @brief Copies text to the clipboard.
+	 * @param strText The text to copy to the clipboard.
+	 * @return TRUE if the text was copied successfully, FALSE otherwise.
+	 */
 	BOOL SetClipboardText(const CString& strText);
 
 protected:

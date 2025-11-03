@@ -32,6 +32,12 @@ class CBuffer;
 class CNeighbour;
 
 // A packet on a peer-to-peer network
+/**
+ * @brief Represents a packet on a peer-to-peer network.
+ *
+ * This class provides a base for network packets, handling the common
+ * functionality such as reading and writing data to a buffer.
+ */
 class CPacket
 {
 
@@ -69,15 +75,25 @@ public:
 
 public:
 
-	// Reset this packet object to make it like it was when it came from the constructor
+	/**
+	 * @brief Resets this packet object to make it like it was when it came from the constructor.
+	 */
 	virtual void Reset();
 
-	// What is const = 0 (do)
+	/**
+	 * @brief Converts the packet to a buffer.
+	 * @param pBuffer A pointer to the buffer to fill.
+	 * @param bTCP If TRUE, the buffer will be formatted for TCP.
+	 */
 	virtual void ToBuffer(CBuffer* pBuffer, bool bTCP = true) = 0;
 
 public:
 
-	// Set the position the given distance from the given end
+	/**
+	 * @brief Sets the position the given distance from the given end.
+	 * @param nPosition The new position.
+	 * @param nRelative The relative position to seek from.
+	 */
 	void Seek(DWORD nPosition, int nRelative = seekStart);	
 	// Shorten the packet to the given number of bytes
 	void Shorten(DWORD nLength);

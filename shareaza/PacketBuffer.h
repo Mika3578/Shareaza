@@ -35,13 +35,19 @@ class CBuffer;
 class CG1PacketBufferType;
 
 // Holds 9 arrays of 64 Gnutella packets each, one array for each packet type, like ping or pong
+/**
+ * @brief Holds 9 arrays of 64 Gnutella packets each, one array for each packet type, like ping or pong.
+ */
 class CG1PacketBuffer
 {
 
 public:
 
-	// Make a new set of arrays, and delete this set
-	CG1PacketBuffer(CBuffer* pBuffer); // Takes a buffer to write packets to instead of putting them in the arrays
+	/**
+	 * @brief Constructs a new CG1PacketBuffer object.
+	 * @param pBuffer A buffer to write packets to instead of putting them in the arrays.
+	 */
+	CG1PacketBuffer(CBuffer* pBuffer);
 	virtual ~CG1PacketBuffer();
 
 public:
@@ -62,21 +68,34 @@ protected:
 
 public:
 
-	// Add a packet, and clear them all
-	void Add(CG1Packet* pPacket, BOOL bBuffered = TRUE); // Add a packet to the array of its type
-	void Clear();                                        // Clear all the packets from all the arrays
+	/**
+	 * @brief Adds a packet to the array of its type.
+	 * @param pPacket The packet to add.
+	 * @param bBuffered If TRUE, the packet will be buffered.
+	 */
+	void Add(CG1Packet* pPacket, BOOL bBuffered = TRUE);
 
-	// Get a packet to send, it chooses one added recently, not expired, and keeps the type mixed up
+	/**
+	 * @brief Clears all the packets from all the arrays.
+	 */
+	void Clear();
+
+	/**
+	 * @brief Gets a packet to send.
+	 * @param dwExpire The expiration time for the packet.
+	 * @return A pointer to the packet to send.
+	 */
 	CG1Packet* GetPacketToSend(DWORD dwExpire = 0);
 };
 
-// Holds an array of 64 pointers to packets to send, all of one type, and the time each expires 1 minute after they were added
+/**
+ * @brief Holds an array of 64 pointers to packets to send, all of one type, and the time each expires 1 minute after they were added.
+ */
 class CG1PacketBufferType
 {
 
 public:
 
-	// Create a new packet buffer type object, and delete this one
 	CG1PacketBufferType();
 	virtual ~CG1PacketBufferType();
 
@@ -93,9 +112,25 @@ protected:
 
 public:
 
-	// Add a packet to the array, get one out, and clear them all
+	/**
+	 * @brief Adds a packet to the array.
+	 * @param pPacket The packet to add.
+	 * @return TRUE if the packet was added successfully, FALSE otherwise.
+	 */
 	BOOL       Add(CG1Packet* pPacket);
+
+	/**
+	 * @brief Gets a packet from the array.
+	 * @param dwExpire The expiration time for the packet.
+	 * @param pnTotal A pointer to a variable that receives the total number of packets in the array.
+	 * @param pnDropped A pointer to a variable that receives the number of dropped packets.
+	 * @return A pointer to the packet.
+	 */
 	CG1Packet* Get(DWORD dwExpire = 0, int* pnTotal = NULL, int* pnDropped = NULL);
+
+	/**
+	 * @brief Clears all the packets from the array.
+	 */
 	void       Clear();
 };
 

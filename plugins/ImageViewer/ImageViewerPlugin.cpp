@@ -5,21 +5,26 @@
 // redistribute and modify without any restrictions.
 // This file is part of SHAREAZA (shareaza.sourceforge.net), original author Michael Stokes. 
 //
-// This file contains the CImageViewerPlugin class, which is the "plugin object".
-// It is created by Shareaza when the plugin is loaded or enabled by the user, and
-// destroyed when the application is closed or the plugin is disabled.
-//
-// This is a "general plugin", so it implements the IGeneralPlugin interface.  General
-// plugins are always invoked from the GUI thread.
-//
-// The image viewer needs to capture the "open file" event so that it can open the
-// applicable image file in a viewer window.  This is achieved by implementing the
-// IExecutePlugin interface, which has OnExecute() and OnEnqueue() methods that can
-// override Shareaza's default file-opening behaviour.
-//
-// The ICommandPlugin interface is also implemented, which allows the image viewer to
-// register its own user interface commands, and respond to them when the user
-// invokes them.
+/**
+ * @file ImageViewerPlugin.cpp
+ * @brief Implementation of the CImageViewerPlugin class.
+ *
+ * This file contains the CImageViewerPlugin class, which is the "plugin object".
+ * It is created by Shareaza when the plugin is loaded or enabled by the user, and
+ * destroyed when the application is closed or the plugin is disabled.
+ *
+ * This is a "general plugin", so it implements the IGeneralPlugin interface.  General
+ * plugins are always invoked from the GUI thread.
+ *
+ * The image viewer needs to capture the "open file" event so that it can open the
+ * applicable image file in a viewer window.  This is achieved by implementing the
+ * IExecutePlugin interface, which has OnExecute() and OnEnqueue() methods that can
+ * override Shareaza's default file-opening behaviour.
+ *
+ * The ICommandPlugin interface is also implemented, which allows the image viewer to
+ * register its own user interface commands, and respond to them when the user
+ * invokes them.
+ */
 //
 
 #include "StdAfx.h"

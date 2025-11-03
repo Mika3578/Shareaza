@@ -37,11 +37,25 @@
 
 
 // A socket connection to a remote computer on the Internet running peer-to-peer software
+/**
+ * @brief Represents a socket connection to a remote computer.
+ *
+ * This class provides a base for network connections, handling the common
+ * functionality such as connecting, closing, and managing buffers.
+ */
 class CConnection
 {
 // Construction
 protected:
+	/**
+	 * @brief Constructs a new CConnection object.
+	 * @param nProtocol The protocol to use for the connection.
+	 */
 	CConnection(PROTOCOLID nProtocol = PROTOCOL_ANY);
+
+	/**
+	 * @brief Destroys the CConnection object.
+	 */
 	virtual ~CConnection();
 
 // Attributes
@@ -92,19 +106,58 @@ public:
 
 // Operations
 public:
-	// Exchange data with the other computer, measure bandwidth, and work with headers
-	virtual BOOL DoRun();	// Communicate with the other computer, reading and writing everything we can right now
+	/**
+	 * @brief Communicates with the other computer, reading and writing everything we can right now.
+	 * @return TRUE if the communication is successful, FALSE otherwise.
+	 */
+	virtual BOOL DoRun();
 	void QueueRun();		// (do) may no longer be in use
-	void Measure();			// Measure the bandwidth, setting nMeasure in the bandwidth meters for each direction
-	void MeasureIn();		// Measure the incoming bandwidth, setting nMeasure in the bandwidth meter
-	void MeasureOut();		// Measure the outgoing bandwidth, setting nMeasure in the bandwidth meter
-	BOOL ReadHeaders();		// Read text headers sitting in the input buffer
-	BOOL SendMyAddress();	// If we are listening on a port, tell the other computer our IP address and port number
-	void UpdateCountry();	// Call whenever the IP address is set
+	/**
+	 * @brief Measures the bandwidth, setting nMeasure in the bandwidth meters for each direction.
+	 */
+	void Measure();
+
+	/**
+	 * @brief Measures the incoming bandwidth, setting nMeasure in the bandwidth meter.
+	 */
+	void MeasureIn();
+
+	/**
+	 * @brief Measures the outgoing bandwidth, setting nMeasure in the bandwidth meter.
+	 */
+	void MeasureOut();
+
+	/**
+	 * @brief Reads text headers sitting in the input buffer.
+	 * @return TRUE if the headers are read successfully, FALSE otherwise.
+	 */
+	BOOL ReadHeaders();
+
+	/**
+	 * @brief If we are listening on a port, tells the other computer our IP address and port number.
+	 * @return TRUE if the address is sent successfully, FALSE otherwise.
+	 */
+	BOOL SendMyAddress();
+
+	/**
+	 * @brief Call whenever the IP address is set.
+	 */
+	void UpdateCountry();
+	/**
+	 * @brief Sends an HTML response to the remote computer.
+	 * @param nResourceID The resource ID of the HTML to send.
+	 */
 	void SendHTML(UINT nResourceID);
+
+	/**
+	 * @brief Logs the outgoing data.
+	 */
 	void LogOutgoing();
 
-	// True if the socket is valid, false if its closed
+	/**
+	 * @brief True if the socket is valid, false if its closed.
+	 * @return TRUE if the socket is valid, FALSE otherwise.
+	 */
 	inline BOOL IsValid() const throw()
 	{
 		return ( m_hSocket != INVALID_SOCKET );

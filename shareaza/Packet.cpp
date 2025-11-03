@@ -18,6 +18,11 @@
 // along with Shareaza; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
+/**
+ * @file Packet.cpp
+ * @brief Implementation of the CPacket class.
+ */
+//
 
 // CPacket represents a packet on a peer-to-peer network, and CPacketPool keeps lists of them
 // http://shareazasecurity.be/wiki/index.php?title=Developers.Code.CPacket

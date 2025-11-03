@@ -18,6 +18,11 @@
 // along with Shareaza; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
+/**
+ * @file Settings.cpp
+ * @brief Implementation of the CSettings class.
+ */
+//
 
 #include "StdAfx.h"
 #include "Shareaza.h"

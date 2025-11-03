@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Declaration of the CImageWindow class.
+ */
+
 //
 // ImageViewerWindow.h
 //
@@ -13,6 +18,12 @@
 class CImageViewerPlugin;
 
 
+/**
+ * @brief Represents the image viewer window.
+ *
+ * This class is responsible for displaying the image and handling user
+ * interaction.
+ */
 class CImageWindow : 
 	public CComObjectRootEx<CComSingleThreadModel>,
 	public CWindow,
@@ -26,7 +37,18 @@ public:
 	CImageWindow*			m_pNext;
 	CString					m_sFile;
 
+	/**
+	 * @brief Creates the image window.
+	 * @param pPlugin A pointer to the plugin object.
+	 * @param pszFile The path to the image file to open.
+	 * @return TRUE if the window was created successfully, FALSE otherwise.
+	 */
 	BOOL	Create(CImageViewerPlugin* pPlugin, LPCTSTR pszFile);
+
+	/**
+	 * @brief Refreshes the image.
+	 * @return TRUE if the image was refreshed successfully, FALSE otherwise.
+	 */
 	BOOL	Refresh();
 
 protected:

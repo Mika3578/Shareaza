@@ -1,3 +1,18 @@
+# Shareaza
+
+Shareaza is a peer-to-peer file sharing client for Windows that supports multiple networks, including Gnutella, Gnutella2, eDonkey, and BitTorrent. It is free and open-source software, written in C++ and released under the GNU General Public License.
+
+## Architecture
+
+The Shareaza application is built around a modular and extensible architecture. The core of the application is the `shareaza` project, which contains the main application logic, user interface, and network management.
+
+The application is divided into several key components:
+
+*   **Application:** The `CApplication` class is the main entry point for the application. It is responsible for initializing the application, managing the user interface, and providing access to the core services.
+*   **Network:** The `CNetwork` class manages the network connectivity and communication for the application. It is responsible for initializing and shutting down the network, managing connections, resolving hostnames, and handling network events.
+*   **Library:** The `CLibrary` class manages the user's shared files and downloads. It is responsible for indexing files, managing the download queue, and providing access to the user's library.
+*   **Plugins:** Shareaza supports a plugin architecture that allows developers to extend the functionality of the application. Plugins can be used to add support for new networks, add new features to the user interface, or add new functionality to the application.
+
 # Compiling Shareaza
 
 ## Microsoft Visual Studio

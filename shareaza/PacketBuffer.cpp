@@ -18,6 +18,11 @@
 // along with Shareaza; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
+/**
+ * @file PacketBuffer.cpp
+ * @brief Implementation of the CG1PacketBuffer and CG1PacketBufferType classes.
+ */
+//
 
 // CG1PacketBuffer holds arrays of packets to send, organized by their type
 // http://shareazasecurity.be/wiki/index.php?title=Developers.Code.CG1PacketBuffer

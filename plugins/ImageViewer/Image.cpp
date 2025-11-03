@@ -5,13 +5,18 @@
 // redistribute and modify without any restrictions.
 // This file is part of SHAREAZA (shareaza.sourceforge.net), original author Michael Stokes. 
 //
-// This file contains a utility class CImage, for managing bitmap images.
-// It provides a number of key features:
-//
-// - Loading images via Shareaza ImageServices plugins
-// - Conversion from mono to RGB
-// - Alpha channel removal (to solid RGB with background colour)
-// - Smooth resampling and conversion to HBITMAP
+/**
+ * @file Image.cpp
+ * @brief Implementation of the CImage class.
+ *
+ * This file contains a utility class CImage, for managing bitmap images.
+ * It provides a number of key features:
+ *
+ * - Loading images via Shareaza ImageServices plugins
+ * - Conversion from mono to RGB
+ * - Alpha channel removal (to solid RGB with background colour)
+ * - Smooth resampling and conversion to HBITMAP
+ */
 //
 
 #include "StdAfx.h"
