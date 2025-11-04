@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - main
+      - develop
+  pull_request:
+    branches:
+      - master
+      - main
+      - develop
+  workflow_dispatch:
+
+env:
+  # Path to the solution file relative to the root of the project.
+  SOLUTION_FILE_PATH: vc143/Shareaza.sln
+  RELEASEBUILD_FILE_PATH: vc143/ReleaseBuild.props
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build ${{ matrix.platform }} ${{ matrix.type }}
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [Win32, x64]
+        type: [Release, Debug]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v1
+      with:
+        versionSpec: '5.x'
+
+    - name: Determine Version
+      id: gitversion
+      uses: gittools/actions/gitversion/execute@v1
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Restore NuGet packages (zlibwapi)
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: |
+        nuget restore zlibwapi/zlibwapi_143.vcxproj -PackagesDirectory zlibwapi/packages
+
+    - name: Restore NuGet packages (Shareaza)
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: nuget restore ${{env.SOLUTION_FILE_PATH}}
+
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: |
+        msbuild ${{env.SOLUTION_FILE_PATH}} /nologo /v:m /t:Rebuild `
+          /p:ForceImportBeforeCppTargets=${{env.RELEASEBUILD_FILE_PATH}} `
+          /p:Configuration=${{ matrix.type }} `
+          /p:Platform=${{ matrix.platform }} `
+          /p:DefineConstants=BUILDFROMMSBUILD `
+          /p:RevisionSHA=${{ steps.gitversion.outputs.ShortSha }} `
+          /p:RevisionDate=${{ steps.gitversion.outputs.commitDate }} `
+          /fl /flp:Summary
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      if: success()
+      with:
+        name: Shareaza-${{ matrix.platform }}-${{ matrix.type }}
+        path: setup/builds/*.exe
+        retention-days: 7
+        if-no-files-found: warn
+
+    - name: Upload build logs
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: build-logs-${{ matrix.platform }}-${{ matrix.type }}
+        path: msbuild.log
+        retention-days: 7
+        if-no-files-found: ignore
