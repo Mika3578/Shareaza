@@ -6,7 +6,7 @@ Compiling Shareaza
 
 Preparation:
 
-	1. Download and install Microsoft Visual Studio Community 2015 - https://www.visualstudio.com/
+	1. Download and install Microsoft Visual Studio 2022 (v143 platform toolset) - https://www.visualstudio.com/
 	2. Download and install 7-Zip - http://www.7-zip.org/
 	3. Download and unpack Boost - http://www.boost.org/ (no compilation needed, just add Boost folder to the Include directories in the Project Properties Manager)
 	4. Download and install InnoSetup - http://www.jrsoftware.org/isdl.php (unicode version)
@@ -14,11 +14,11 @@ Preparation:
 
 Manual compilation:
 
-	Open and compile vc14\Shareaza.sln
+	Open and compile vc143\Shareaza.sln
 
 Automatic compilation of daily builds:
 
-	Run vc14\DailyBuild.cmd
+	Run vc143\DailyBuild.cmd
 	
 	It produces a 3 files in the ..\Releases\Snapshots\{revision}\ folder:
 	
@@ -28,7 +28,7 @@ Automatic compilation of daily builds:
 
 Automatic compilation of release builds:
 
-	Run vc14\ReleaseBuildAll.cmd
+	Run vc143\ReleaseBuildAll.cmd
 	
 	It produces a 5 files in the ..\Releases\Shareaza-{version}\ folder:
 	
@@ -45,7 +45,7 @@ Automatic compilation of release builds:
 
 Automatic compilation of LAN Mode builds:
 
-	Run vc14\LanMode.cmd
+	Run vc143\LanMode.cmd
 
 	It produces a 3 files in the ..\Releases\Shareaza-{version}-LAN\ folder:
 	
