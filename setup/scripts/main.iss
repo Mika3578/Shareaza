@@ -152,7 +152,7 @@ WizardSmallImageFile=setup\misc\corner.bmp
 ChangesAssociations=yes
 ChangesEnvironment=yes
 OutputManifestFile=Manifest_{#ConfigurationName}{#PlatformName}.txt
-MinVersion=6.0
+MinVersion=6.1
 #if PlatformName == "x64"
 ArchitecturesAllowed=x64 arm64
 ArchitecturesInstallIn64BitMode=x64 arm64
