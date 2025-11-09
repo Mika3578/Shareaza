@@ -240,8 +240,7 @@ CBTInfo& CBTInfo::operator=(const CBTInfo& oSource)
 	if ( oSource.m_pBlockBTH )
 	{
 		m_pBlockBTH = new Hashes::BtPureHash[ m_nBlockCount ];
-		std::copy( oSource.m_pBlockBTH, oSource.m_pBlockBTH + m_nBlockCount,
-			stdext::make_checked_array_iterator( m_pBlockBTH, m_nBlockCount ) );
+		std::copy( oSource.m_pBlockBTH, oSource.m_pBlockBTH + m_nBlockCount, m_pBlockBTH );
 	}
 
 	m_nTotalUpload		= oSource.m_nTotalUpload;
@@ -943,7 +942,7 @@ BOOL CBTInfo::LoadTorrentTree(const CBENode* pRoot)
 
 	std::copy( static_cast< const Hashes::BtHash::RawStorage* >( pHash->m_pValue ),
 		static_cast< const Hashes::BtHash::RawStorage* >( pHash->m_pValue ) + m_nBlockCount,
-		stdext::make_checked_array_iterator( m_pBlockBTH, m_nBlockCount ) );
+		m_pBlockBTH );
 
 	// Hash info
 	if ( const CBENode* pSHA1 = pInfo->GetNode( "sha1" ) )
