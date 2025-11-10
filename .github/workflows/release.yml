@@ -31,11 +31,6 @@ jobs:
             uses: gittools/actions/gitversion/setup@v1
             with:
                 versionSpec: '5.x'
-    
-        -   name: Install GitVersion
-            uses: gittools/actions/gitversion/setup@v1
-            with:
-                versionSpec: '5.x'
         
         -   name: Add MSBuild to PATH
             uses: microsoft/setup-msbuild@v2
