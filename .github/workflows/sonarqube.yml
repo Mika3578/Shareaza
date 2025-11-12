@@ -1,4 +1,6 @@
 name: SonarCloud
+permissions:
+  contents: read
 on:
   workflow_dispatch:
 jobs:
